@@ -15,6 +15,9 @@
       gtag('config', 'G-M1SD7MK82G');
     </script>
 
+    <!-- Include Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,7 +40,13 @@
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #808080; /* Gray background */
+        }
+        .info-text {
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            max-width: 600px;
         }
     </style>
 </head>
@@ -45,8 +54,8 @@
 
     <h1>eBay Auction Timing Calculator</h1>
 
-    <label for="endTime">Desired Auction End:</label>
-    <input type="datetime-local" id="endTime" name="endTime">
+    <h2>Desired Auction End Time</h2>
+    <input id="endTime" type="text" class="flatpickr" placeholder="Select Date and Time">
 
     <p id="selectedEndTime"></p>
 
@@ -81,28 +90,48 @@
         </tbody>
     </table>
 
-    <script>ß
-        document.getElementById('endTime').addEventListener('change', function() {
-            const endTime = new Date(this.value);
+    <div class="info-text">
+        Please note: The calculated start times are based on the duration selected and the end time you input. Make sure to double-check the start time to ensure your auction runs smoothly!
+    </div>
 
-            document.getElementById('selectedEndTime').innerText = `Desired Auction End: ${endTime.toLocaleString()}`;
+    <!-- Include Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-            const calculateStartTime = (days) => {
-                const startTime = new Date(endTime);
-                startTime.setHours(startTime.getHours() - (24 * days));
-                return startTime.toLocaleString();
+    <script>
+        flatpickr("#endTime", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            onChange: function(selectedDates, dateStr, instance) {
+                const endTime = new Date(dateStr);
+                document.getElementById('selectedEndTime').innerText = `Desired Auction End: ${endTime.toLocaleString()}`;
+
+                const calculateStartTime = (days) => {
+                    const startTime = new Date(endTime);
+                    startTime.setHours(startTime.getHours() - (24 * days));
+                    return startTime.toLocaleString();
+                }
+
+                document.getElementById('oneDay').innerText = calculateStartTime(1);
+                document.getElementById('threeDay').innerText = calculateStartTime(3);
+                document.getElementById('fiveDay').innerText = calculateStartTime(5);
+                document.getElementById('sevenDay').innerText = calculateStartTime(7);
+                document.getElementById('tenDay').innerText = calculateStartTime(10);
             }
-
-            document.getElementById('oneDay').innerText = calculateStartTime(1);
-            document.getElementById('threeDay').innerText = calculateStartTime(3);
-            document.getElementById('fiveDay').innerText = calculateStartTime(5);
-            document.getElementById('sevenDay').innerText = calculateStartTime(7);
-            document.getElementById('tenDay').innerText = calculateStartTime(10);
         });
     </script>
+
+    <br/>
+    <br/>
+    <br/>
+    <a href="https://twitter.com/YesinMyBackCard?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @YesinMyBackCard</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
-    <h1> Check out my eBay Store </h1>
-  <script type="text/javascript" src="https://www.auctionnudge.com/feed/item/js/theme/grid/page/init/img_size/120/cats_output/dropdown/search_box/1/blank/1/show_logo/1/grid_cols/2/grid_width/100%25/lang/english/SellerID/dhulser13/siteid/0/MaxEntries/6/sortOrder/StartTimeNewest/target/56f06004f"></script><div id="auction-nudge-56f06004f"></div>
+    <br/>
+    <br/>
+    <br/>
+    <h1>Check out my eBay Store</h1>
+    <script type="text/javascript" src="https://www.auctionnudge.com/feed/item/js/theme/responsive/page/init/img_size/120/cats_output/dropdown/search_box/1/blank/1/show_logo/1/lang/english/SellerID/dhulser13/siteid/0/MaxEntries/6/sortOrder/StartTimeNewest/target/912a04964"></script>
+    <div id="auction-nudge-912a04964"></div>
 
 </body>
 </html>
