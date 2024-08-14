@@ -1,43 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M1SD7MK82G"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M1SD7MK82G');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eBay Auction Timing Calculator</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1SD7MK82G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M1SD7MK82G');
+    </script>
+
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f9f9f9; text-align: center; padding: 50px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        .input-section { margin-top: 20px; }
-        input[type="datetime-local"] { padding: 10px; width: 80%; font-size: 16px; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
-        .past { color: grey; text-decoration: line-through; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>eBay Auction Timing Calculator</h1>
-        <div class="input-section">
-            <label for="datetimePicker">Desired Auction End:</label>
-            <input type="datetime-local" id="datetimePicker" onchange="calculateStartTimes()">
-        </div>
 
-        <table>
+    <h1>eBay Auction Timing Calculator</h1>
+
+    <label for="endTime">Desired Auction End:</label>
+    <input type="datetime-local" id="endTime" name="endTime">
+
+    <p id="selectedEndTime"></p>
+
+    <table>
+        <thead>
             <tr>
                 <th>Auction Duration</th>
                 <th>Calculated Start Time</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>1 Day Auction</td>
                 <td id="oneDay"></td>
@@ -58,38 +78,31 @@
                 <td>10 Day Auction</td>
                 <td id="tenDay"></td>
             </tr>
-        </table>
-    </div>
+        </tbody>
+    </table>
 
-    <script>
-        function calculateStartTimes() {
-            const dateTime = document.getElementById('datetimePicker').value;
-            if (!dateTime) {
-                alert("Please select a date and time.");
-                return;
+    <script>ß
+        document.getElementById('endTime').addEventListener('change', function() {
+            const endTime = new Date(this.value);
+
+            document.getElementById('selectedEndTime').innerText = `Desired Auction End: ${endTime.toLocaleString()}`;
+
+            const calculateStartTime = (days) => {
+                const startTime = new Date(endTime);
+                startTime.setHours(startTime.getHours() - (24 * days));
+                return startTime.toLocaleString();
             }
 
-            const endDate = new Date(dateTime);
-
-            function setCellContent(cellId, duration) {
-                const date = new Date(endDate.getTime() - duration * 24 * 60 * 60 * 1000);
-                const formattedDate = date.toLocaleString();
-
-                const cell = document.getElementById(cellId);
-                cell.textContent = formattedDate;
-                if (date < new Date()) {
-                    cell.className = 'past';
-                } else {
-                    cell.className = '';
-                }
-            }
-
-            setCellContent('oneDay', 1);
-            setCellContent('threeDay', 3);
-            setCellContent('fiveDay', 5);
-            setCellContent('sevenDay', 7);
-            setCellContent('tenDay', 10);
-        }
+            document.getElementById('oneDay').innerText = calculateStartTime(1);
+            document.getElementById('threeDay').innerText = calculateStartTime(3);
+            document.getElementById('fiveDay').innerText = calculateStartTime(5);
+            document.getElementById('sevenDay').innerText = calculateStartTime(7);
+            document.getElementById('tenDay').innerText = calculateStartTime(10);
+        });
     </script>
+    
+    <h1> Check out my eBay Store </h1>
+  <script type="text/javascript" src="https://www.auctionnudge.com/feed/item/js/theme/grid/page/init/img_size/120/cats_output/dropdown/search_box/1/blank/1/show_logo/1/grid_cols/2/grid_width/100%25/lang/english/SellerID/dhulser13/siteid/0/MaxEntries/6/sortOrder/StartTimeNewest/target/56f06004f"></script><div id="auction-nudge-56f06004f"></div>
+
 </body>
 </html>
