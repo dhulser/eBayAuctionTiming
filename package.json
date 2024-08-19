@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "datejs": "^1.0.0-rc3",
     "flatpickr": "^4.6.13"
   }
 }
