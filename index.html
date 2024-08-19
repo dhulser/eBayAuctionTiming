@@ -52,6 +52,10 @@
             text-align: center;
             max-width: 600px;
         }
+        .past-time {
+            color: grey;
+            text-decoration: line-through;
+        }
     </style>
 </head>
 <body>
@@ -94,8 +98,6 @@
         </tbody>
     </table>
 
- 
-
     <!-- Include Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -105,19 +107,33 @@
             dateFormat: "Y-m-d H:i",
             onChange: function(selectedDates, dateStr, instance) {
                 const endTime = new Date(dateStr);
+                const now = new Date(); // Current date and time
                 document.getElementById('selectedEndTime').innerText = `Desired Auction End: ${endTime.toLocaleString()}`;
 
                 const calculateStartTime = (days) => {
                     const startTime = new Date(endTime);
                     startTime.setHours(startTime.getHours() - (24 * days));
-                    return startTime.toLocaleString();
+                    return startTime;
                 }
 
-                document.getElementById('oneDay').innerText = calculateStartTime(1);
-                document.getElementById('threeDay').innerText = calculateStartTime(3);
-                document.getElementById('fiveDay').innerText = calculateStartTime(5);
-                document.getElementById('sevenDay').innerText = calculateStartTime(7);
-                document.getElementById('tenDay').innerText = calculateStartTime(10);
+                const updateTimeCell = (elementId, days) => {
+                    const startTime = calculateStartTime(days);
+                    const startTimeStr = startTime.toLocaleString();
+                    const cell = document.getElementById(elementId);
+                    cell.innerText = startTimeStr;
+
+                    if (startTime < now) {
+                        cell.classList.add('past-time');
+                    } else {
+                        cell.classList.remove('past-time');
+                    }
+                }
+
+                updateTimeCell('oneDay', 1);
+                updateTimeCell('threeDay', 3);
+                updateTimeCell('fiveDay', 5);
+                updateTimeCell('sevenDay', 7);
+                updateTimeCell('tenDay', 10);
             }
         });
     </script>
